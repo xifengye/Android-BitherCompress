@@ -9,9 +9,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 
 import net.bither.util.NativeUtil;
 
@@ -20,10 +25,14 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    ImageView imageView;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imageView = findViewById(R.id.imageView);
+        textView = findViewById(R.id.textView);
     }
 
     public static final int REQUEST_PICK_IMAGE = 10011;
@@ -88,9 +97,12 @@ public class MainActivity extends AppCompatActivity {
             Log.e("===compressImage===", "====开始==压缩==saveFile==" + saveFile.getAbsolutePath());
             NativeUtil.compressBitmap(bitmap, saveFile.getAbsolutePath());
             Log.e("===compressImage===", "====完成==压缩==saveFile==" + saveFile.getAbsolutePath());
-
+            textView.setText(String.format("%s-%dK",saveFile.getName(),saveFile.length()/1024));
+            Glide.with(imageView).load(saveFile).into(imageView);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (OutOfMemoryError oom) {
+            oom.printStackTrace();
         }
 
     }

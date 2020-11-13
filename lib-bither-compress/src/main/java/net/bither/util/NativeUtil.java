@@ -23,7 +23,7 @@ public class NativeUtil {
 
 
     public static void compressBitmap(Bitmap bitmap, String filePath) {
-        compressBitmap(bitmap, filePath, SIZE_1MB, QUALITY_DEFAULT);
+        compressBitmap(bitmap, filePath, SIZE_1MB, QUALITY_1080P);
     }
 
     public static void compressBitmap(Bitmap bitmap, String filePath, int maxByte, int quality) {
